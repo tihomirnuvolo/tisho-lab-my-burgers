@@ -1,0 +1,1 @@
+export { AllBurgers } from "./AllBurgers";

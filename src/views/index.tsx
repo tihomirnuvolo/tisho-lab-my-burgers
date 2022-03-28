@@ -1,4 +1,4 @@
 import React from "react";
-import { Example } from "@components/Example";
+import { AllBurgers } from "@components/AllBurgers";
 
-export const ExampleView = (): JSX.Element => <Example />;
+export const AllBurgersView = (): JSX.Element => <AllBurgers />;

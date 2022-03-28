@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "@components/App";
 
-const appName: string = "My Burgers";
+const appName = "My Burgers";
 
 (function initApp(): void {
   const id = "react-root";

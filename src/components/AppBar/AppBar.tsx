@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { NuvoAppBar } from "@nuvolo/nuux/components/NuvoAppBar";
 import { NuvoAppBarTitle } from "@nuvolo/nuux/components/NuvoAppBarTitle";
-import { useNuvoMessages } from "@nuvolo/nuux/hooks/useNuvoMessages";
-import { appTitleKey } from "@utils/constants";
+// import { useNuvoMessages } from "@nuvolo/nuux/hooks/useNuvoMessages";
+// import { appTitleKey } from "@utils/constants";
 
 export const NavBar = styled.nav`
   display: flex;
@@ -13,8 +13,9 @@ export const NavBar = styled.nav`
 `;
 
 const TopLevel = (): JSX.Element => {
-  const msg = useNuvoMessages();
-  const title = msg.get(appTitleKey);
+  // const msg = useNuvoMessages();
+  // const title = msg.get(appTitleKey);
+  const title = "My Burgers";
   return (
     <NavBar>
       <NuvoAppBarTitle>{title}</NuvoAppBarTitle>
