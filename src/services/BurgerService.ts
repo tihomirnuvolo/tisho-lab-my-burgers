@@ -4,9 +4,7 @@ import { setBurgers } from "src/store/burgersSlice";
 type Dispatch = (arg0: { payload: undefined; type: string }) => string | number;
 
 const getBurgers = () => (dispatch: Dispatch) => {
-  Http.get(
-    "https://ven04287.service-now.com/api/x_nuvo_my_burgers/burgers/getAll"
-  )
+  Http.get("/api/x_nuvo_my_burgers/burgers/getAll")
     .then((response) => {
       dispatch(setBurgers(JSON.parse(response.data.result)));
     })
