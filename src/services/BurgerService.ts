@@ -7,7 +7,7 @@ type Dispatch = (arg0: { payload: undefined; type: string }) => string | number;
 const getBurgers = () => (dispatch: Dispatch) => {
   Http.get("/api/x_nuvo_my_burgers/burgers/getAll")
     .then((response) => {
-      dispatch(setBurgers(JSON.parse(response.data.result)));
+      dispatch(setBurgers(response.data.result));
     })
     .catch((error) => {
       console.warn("Error while fetching burgers: ", error);

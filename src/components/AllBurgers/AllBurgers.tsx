@@ -18,9 +18,6 @@ export const AllBurgers = (): JSX.Element => {
   useEffect(() => {
     dispatch(getBurgers());
   }, []);
-  // const refreshList = useCallback(() => {
-  //   dispatch(getBurgers());
-  // });
 
   const defaultDataGridOptions = {
     column: {
@@ -84,7 +81,6 @@ export const AllBurgers = (): JSX.Element => {
     },
   ];
 
-  console.dir(burgers);
   return (
     <>
       <h1>All Burgers</h1>
@@ -98,7 +94,7 @@ export const AllBurgers = (): JSX.Element => {
           allowColumnReordering
           // onRowClick={onRowClick}
           selection={{
-            mode: "multiple",
+            mode: "none",
             showCheckBoxesMode: "none",
           }}
           configName={BURGERS_COLUMN_CONFIG}
@@ -119,8 +115,8 @@ export const AllBurgers = (): JSX.Element => {
             handleDelete: () => undefined,
             hasDeleteColumn: false,
             options: (c: ColumnParams) => ({
-              groupIndex: c.groupIndex,
-              alignment: c.alignment,
+              // groupIndex: c.groupIndex,
+              // alignment: c.alignment,
               allowGrouping: false,
               setCellValue: () => undefined,
               showInColumnChooser: c.showInColumnChooser ?? true,

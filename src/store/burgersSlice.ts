@@ -14,7 +14,6 @@ const burgersSlice = createSlice({
   initialState: burgerDefaults,
   reducers: {
     setBurgers: (state, action) => {
-      console.log("state getAll ", action.payload);
       state.burgers = action.payload;
     },
     addBurger: (state, action) => {
