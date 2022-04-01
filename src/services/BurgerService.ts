@@ -1,5 +1,9 @@
 import * as Http from "src/utils/http";
-import { setBurgers } from "src/store/burgersSlice";
+import {
+  addBurgerRecord,
+  setBurgers,
+  updateBurgerRecord,
+} from "src/store/burgersSlice";
 import { Burger } from "src/types/Burger";
 
 type Dispatch = (arg0: { payload: undefined; type: string }) => string | number;
@@ -14,23 +18,35 @@ const getBurgers = () => (dispatch: Dispatch) => {
     });
 };
 
-const addBurger = (burger: Burger) => {
+const addBurger = (
+  burger: Burger,
+  resolveHandler: Function,
+  errorHandler: Function
+) => {
   Http.post("/api/x_nuvo_my_burgers/burgers/addBurger", burger)
-    .then(() => {
-      addBurger(burger);
+    .then((response) => {
+      addBurgerRecord(burger);
+      resolveHandler(response);
     })
     .catch((error) => {
       console.warn("Error while adding a new burger: ", error);
+      errorHandler(error);
     });
 };
 
-const updateBurger = (burger: Burger) => {
+const updateBurger = (
+  burger: Burger,
+  resolveHandler: Function,
+  errorHandler: Function
+) => {
   Http.put("/api/x_nuvo_my_burgers/burgers/updateBurger", burger)
-    .then(() => {
-      updateBurger(burger);
+    .then((response) => {
+      updateBurgerRecord(burger);
+      resolveHandler(response);
     })
     .catch((error) => {
       console.warn("Error while updating an existing burger: ", error);
+      errorHandler(error);
     });
 };
 

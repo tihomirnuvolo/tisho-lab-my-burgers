@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBurgers } from "src/services/BurgerService";
 import { burgersState } from "src/store/burgersSlice";
@@ -9,11 +9,17 @@ import { Pager, Paging, Sorting } from "@nuvolo/nuux/components/NuvoDataGrid";
 import { renderColumnsCollection } from "@components/ColumnsRenderer";
 import { ColumnParams } from "src/types/columnParams";
 import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { Burger } from "src/types/Burger";
+import { CreateBurger } from "./CreateBurger";
 
 export const AllBurgers = (): JSX.Element => {
   const msg = useNuvoMessages();
   const { burgers } = useSelector(burgersState);
   const dispatch = useDispatch();
+
+  const [createBurger, setCreateBurger] = useState(false);
+  const [editBurger, setEditBurger] = useState(false);
+  const editPayload = useRef({} as Burger);
 
   useEffect(() => {
     dispatch(getBurgers());
@@ -42,7 +48,7 @@ export const AllBurgers = (): JSX.Element => {
     {
       columnName: "sys_id",
       columnLabel: "Id",
-      translate_key: "",
+      // translate_key: "",
       columnType: "string",
       visible: false,
       allowHiding: false,
@@ -50,7 +56,7 @@ export const AllBurgers = (): JSX.Element => {
     {
       columnName: "name",
       columnLabel: "Name",
-      translate_key: "",
+      // translate_key: "",
       columnType: "string",
       visible: true,
       allowHiding: false,
@@ -58,7 +64,7 @@ export const AllBurgers = (): JSX.Element => {
     {
       columnName: "list_price",
       columnLabel: "Price",
-      translate_key: "",
+      // translate_key: "",
       columnType: "number",
       visible: true,
       allowHiding: false,
@@ -66,7 +72,7 @@ export const AllBurgers = (): JSX.Element => {
     {
       columnName: "currency",
       columnLabel: "Currency",
-      translate_key: "",
+      // translate_key: "",
       columnType: "string",
       visible: true,
       allowHiding: false,
@@ -74,7 +80,7 @@ export const AllBurgers = (): JSX.Element => {
     {
       columnName: "quantity",
       columnLabel: "Quantity",
-      translate_key: "",
+      // translate_key: "",
       columnType: "number",
       visible: true,
       allowHiding: false,
@@ -83,63 +89,62 @@ export const AllBurgers = (): JSX.Element => {
 
   return (
     <>
-      <h1>All Burgers</h1>
-      <PreLoader mode="page" isLoading={!burgers}>
-        <DataGrid
-          keyExpr="sys_id"
-          dataSource={burgers}
-          showColumnLines
-          showRowLines
-          columnAutoWidth
-          allowColumnReordering
-          // onRowClick={onRowClick}
-          selection={{
-            mode: "none",
-            showCheckBoxesMode: "none",
-          }}
-          configName={BURGERS_COLUMN_CONFIG}
-          height="100%"
-        >
-          {/* <Grouping /> */}
-          {/* <GroupPanel visible /> */}
-          <Sorting
-            mode={
-              defaultDataGridOptions.sorting.sortingMode
-                ? defaultDataGridOptions.sorting.sortingMode
-                : "none"
-            }
-          />
-          {renderColumnsCollection({
-            msg,
-            columnMap,
-            handleDelete: () => undefined,
-            hasDeleteColumn: false,
-            options: (c: ColumnParams) => ({
-              // groupIndex: c.groupIndex,
-              // alignment: c.alignment,
-              allowGrouping: false,
-              setCellValue: () => undefined,
-              showInColumnChooser: c.showInColumnChooser ?? true,
-              allowHiding: c.allowHiding ?? true,
-            }),
-          })}
-          {/* <Template name="payementsTab" render={createPaymentIcon} />
+      <div style={{ margin: "1rem" }}>
+        <h1>All Burgers</h1>
+        <PreLoader mode="page" isLoading={!burgers}>
+          <DataGrid
+            keyExpr="sys_id"
+            dataSource={burgers}
+            showColumnLines
+            showRowLines
+            columnAutoWidth
+            allowColumnReordering
+            // onRowClick={onRowClick}
+            selection={{
+              mode: "none",
+              deferred: true,
+              showCheckBoxesMode: "none",
+            }}
+            configName={BURGERS_COLUMN_CONFIG}
+            height="100%"
+          >
+            {/* <Grouping /> */}
+            {/* <GroupPanel visible /> */}
+            <Sorting
+              mode={
+                defaultDataGridOptions.sorting.sortingMode
+                  ? defaultDataGridOptions.sorting.sortingMode
+                  : "none"
+              }
+            />
+            {renderColumnsCollection({
+              msg,
+              columnMap,
+              handleDelete: () => undefined,
+              hasDeleteColumn: false,
+              options: (c: ColumnParams) => ({
+                // groupIndex: c.groupIndex,
+                // alignment: c.alignment,
+                allowGrouping: false,
+                setCellValue: () => undefined,
+                showInColumnChooser: c.showInColumnChooser ?? true,
+                allowHiding: c.allowHiding ?? true,
+              }),
+            })}
+            {/* <Template name="payementsTab" render={createPaymentIcon} />
           <Template name="download" render={downloadRender} /> */}
-          <Paging defaultPageSize={10} />
-          <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
-        </DataGrid>
-        {/* <CreatePayment
-          contract={contract}
-          open={createPayment}
-          setOpen={setCreatePayment}
-        />
-        <UpdatePayment
+            <Paging defaultPageSize={10} />
+            <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
+          </DataGrid>
+          <CreateBurger open={createBurger} setOpen={setCreateBurger} />
+          {/* <UpdatePayment
           refreshList={refreshList}
           open={editPayment}
           setOpen={setEditPayment}
           payload={editPayload}
         /> */}
-      </PreLoader>
+        </PreLoader>
+      </div>
     </>
   );
 };

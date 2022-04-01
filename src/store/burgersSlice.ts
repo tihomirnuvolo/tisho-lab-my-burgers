@@ -16,11 +16,11 @@ const burgersSlice = createSlice({
     setBurgers: (state, action) => {
       state.burgers = action.payload;
     },
-    addBurger: (state, action) => {
+    addBurgerRecord: (state, action) => {
       console.log("state create ", action.payload);
       state.burgers = state.burgers?.concat(action.payload);
     },
-    updateBurger: (state, action) => {
+    updateBurgerRecord: (state, action) => {
       console.log("state update", action.payload);
       state.burgers = state.burgers?.map((burger) =>
         burger.sys_id === action.payload.sys_id ? action.payload : burger
@@ -29,7 +29,8 @@ const burgersSlice = createSlice({
   },
 });
 
-export const { setBurgers, addBurger, updateBurger } = burgersSlice.actions;
+export const { setBurgers, addBurgerRecord, updateBurgerRecord } =
+  burgersSlice.actions;
 
 export const burgersState = (state: any): BurgerState => state.burgers;
 
