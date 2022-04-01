@@ -15,7 +15,7 @@ export const NavBar = styled.nav`
 const TopLevel = (): JSX.Element => {
   // const msg = useNuvoMessages();
   // const title = msg.get(appTitleKey);
-  const title = "My Burgers";
+  const title = "My Burgers App";
   return (
     <NavBar>
       <NuvoAppBarTitle>{title}</NuvoAppBarTitle>

@@ -10,6 +10,8 @@ import { renderColumnsCollection } from "@components/ColumnsRenderer";
 import { ColumnParams } from "src/types/columnParams";
 import { useNuvoMessages } from "@nuvolo/nuux/hooks";
 import { Burger } from "src/types/Burger";
+import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
+import { Col, Container, Row } from "react-bootstrap";
 import { CreateBurger } from "./CreateBurger";
 
 export const AllBurgers = (): JSX.Element => {
@@ -87,10 +89,32 @@ export const AllBurgers = (): JSX.Element => {
     },
   ];
 
+  const onAddNewClick = () => {
+    setCreateBurger(true);
+  };
+
   return (
     <>
       <div style={{ margin: "1rem" }}>
-        <h1>All Burgers</h1>
+        <div style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+          <Container
+            style={{
+              width: "100%",
+              maxWidth: "100%",
+              margin: "0",
+              padding: "0",
+            }}
+          >
+            <Row style={{ margin: "0" }}>
+              <Col style={{ textAlign: "left" }}>
+                <h1>All Burgers</h1>
+              </Col>
+              <Col style={{ textAlign: "right" }}>
+                <NuvoButton label="Add New" onClick={onAddNewClick} />
+              </Col>
+            </Row>
+          </Container>
+        </div>
         <PreLoader mode="page" isLoading={!burgers}>
           <DataGrid
             keyExpr="sys_id"
@@ -120,13 +144,17 @@ export const AllBurgers = (): JSX.Element => {
             {renderColumnsCollection({
               msg,
               columnMap,
-              handleDelete: () => undefined,
+              handleDelete: () => {
+                // do nothing
+              },
               hasDeleteColumn: false,
               options: (c: ColumnParams) => ({
                 // groupIndex: c.groupIndex,
                 // alignment: c.alignment,
                 allowGrouping: false,
-                setCellValue: () => undefined,
+                setCellValue: () => {
+                  // do nothing
+                },
                 showInColumnChooser: c.showInColumnChooser ?? true,
                 allowHiding: c.allowHiding ?? true,
               }),

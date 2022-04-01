@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Burger } from "src/types/Burger";
 import { showInfoToast } from "src/store/ToastSlice";
 import { addBurger, getBurgers } from "src/services/BurgerService";
-import { Currencies } from "src/types/Currency";
+import { Currencies } from "src/types/Currencies";
 import { BurgerFormModal } from "./BurgerForm";
 
 interface CreateBurgerProps {

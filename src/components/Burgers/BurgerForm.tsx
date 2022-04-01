@@ -4,7 +4,7 @@ import { NuvoModal } from "@nuvolo/nuux/components/NuvoModal";
 import { Item, NuvoForm } from "@nuvolo/nuux/components/NuvoForm";
 import { Burger } from "src/types/Burger";
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
-import { Currencies } from "src/types/Currency";
+import { Currencies } from "src/types/Currencies";
 
 interface BurgerFormProps {
   title: string;
