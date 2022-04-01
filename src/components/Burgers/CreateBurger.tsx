@@ -26,8 +26,8 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
   const dispatch = useDispatch();
   const payload = useRef(defaultBurger);
 
-  const savePayment = () => {
-    const resetPaymentForm = () => {
+  const saveBurger = () => {
+    const resetBurgerForm = () => {
       payload.current = defaultBurger;
     };
 
@@ -39,7 +39,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
         })
       );
       dispatch(getBurgers());
-      resetPaymentForm();
+      resetBurgerForm();
     };
     const onFail = () => {
       dispatch(
@@ -48,7 +48,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
           content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
         })
       );
-      resetPaymentForm();
+      resetBurgerForm();
     };
 
     addBurger(payload.current, onSuccess, onFail);
@@ -60,7 +60,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
       open={open}
       setOpen={setOpen}
       payload={payload}
-      onSave={savePayment}
+      onSave={saveBurger}
       disabled={false}
     />
   );

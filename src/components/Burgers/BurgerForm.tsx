@@ -22,7 +22,6 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
   const [changesWereMade, setChangesWereMade] = useState(false);
 
   const { payload, title, open, setOpen, onSave, disabled } = props;
-
   const currenciesList = Object.values(Currencies);
 
   const _onClose = () => {

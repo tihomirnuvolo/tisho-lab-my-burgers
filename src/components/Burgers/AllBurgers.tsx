@@ -5,17 +5,23 @@ import { burgersState } from "src/store/burgersSlice";
 import { PreLoader } from "src/nuvolo/nuux/components/NuvoLoader";
 import { DataGrid } from "@components/common/DataGrid/DataGrid";
 import { BURGERS_COLUMN_CONFIG } from "@utils/constants";
-import { Pager, Paging, Sorting } from "@nuvolo/nuux/components/NuvoDataGrid";
-import { renderColumnsCollection } from "@components/ColumnsRenderer";
+import {
+  Column,
+  Pager,
+  Paging,
+  Sorting,
+} from "@nuvolo/nuux/components/NuvoDataGrid";
 import { ColumnParams } from "src/types/columnParams";
-import { useNuvoMessages } from "@nuvolo/nuux/hooks";
 import { Burger } from "src/types/Burger";
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
 import { Col, Container, Row } from "react-bootstrap";
 import { CreateBurger } from "./CreateBurger";
 
+function renderTitleHeader(data: any) {
+  return <div style={{ whiteSpace: "pre-wrap" }}>{data.column.caption}</div>;
+}
+
 export const AllBurgers = (): JSX.Element => {
-  const msg = useNuvoMessages();
   const { burgers } = useSelector(burgersState);
   const dispatch = useDispatch();
 
@@ -50,42 +56,32 @@ export const AllBurgers = (): JSX.Element => {
     {
       columnName: "sys_id",
       columnLabel: "Id",
-      // translate_key: "",
       columnType: "string",
       visible: false,
-      allowHiding: false,
     },
     {
       columnName: "name",
       columnLabel: "Name",
-      // translate_key: "",
       columnType: "string",
       visible: true,
-      allowHiding: false,
     },
     {
       columnName: "list_price",
       columnLabel: "Price",
-      // translate_key: "",
       columnType: "number",
       visible: true,
-      allowHiding: false,
     },
     {
       columnName: "currency",
       columnLabel: "Currency",
-      // translate_key: "",
       columnType: "string",
       visible: true,
-      allowHiding: false,
     },
     {
       columnName: "quantity",
       columnLabel: "Quantity",
-      // translate_key: "",
       columnType: "number",
       visible: true,
-      allowHiding: false,
     },
   ];
 
@@ -95,27 +91,27 @@ export const AllBurgers = (): JSX.Element => {
 
   return (
     <>
-      <div style={{ margin: "1rem" }}>
-        <div style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
-          <Container
-            style={{
-              width: "100%",
-              maxWidth: "100%",
-              margin: "0",
-              padding: "0",
-            }}
-          >
-            <Row style={{ margin: "0" }}>
-              <Col style={{ textAlign: "left" }}>
-                <h1>All Burgers</h1>
-              </Col>
-              <Col style={{ textAlign: "right" }}>
-                <NuvoButton label="Add New" onClick={onAddNewClick} />
-              </Col>
-            </Row>
-          </Container>
-        </div>
-        <PreLoader mode="page" isLoading={!burgers}>
+      <PreLoader mode="page" isLoading={!burgers}>
+        <div style={{ margin: "1rem" }}>
+          <div style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+            <Container
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+                margin: "0",
+                padding: "0",
+              }}
+            >
+              <Row style={{ margin: "0" }}>
+                <Col style={{ textAlign: "left" }}>
+                  <h1>All Burgers</h1>
+                </Col>
+                <Col style={{ textAlign: "right" }}>
+                  <NuvoButton label="Add New" onClick={onAddNewClick} />
+                </Col>
+              </Row>
+            </Container>
+          </div>
           <DataGrid
             keyExpr="sys_id"
             dataSource={burgers}
@@ -132,8 +128,6 @@ export const AllBurgers = (): JSX.Element => {
             configName={BURGERS_COLUMN_CONFIG}
             height="100%"
           >
-            {/* <Grouping /> */}
-            {/* <GroupPanel visible /> */}
             <Sorting
               mode={
                 defaultDataGridOptions.sorting.sortingMode
@@ -141,26 +135,21 @@ export const AllBurgers = (): JSX.Element => {
                   : "none"
               }
             />
-            {renderColumnsCollection({
-              msg,
-              columnMap,
-              handleDelete: () => {
-                // do nothing
-              },
-              hasDeleteColumn: false,
-              options: (c: ColumnParams) => ({
-                // groupIndex: c.groupIndex,
-                // alignment: c.alignment,
-                allowGrouping: false,
-                setCellValue: () => {
-                  // do nothing
-                },
-                showInColumnChooser: c.showInColumnChooser ?? true,
-                allowHiding: c.allowHiding ?? true,
-              }),
-            })}
-            {/* <Template name="payementsTab" render={createPaymentIcon} />
-          <Template name="download" render={downloadRender} /> */}
+            {columnMap.map((c, index) => (
+              <Column
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                caption={c.columnLabel}
+                dataField={c.columnName}
+                dataType={c.columnType}
+                visible={c.visible}
+                // format={c.format}
+                // cssClass={c.cssClass}
+                // alignment={c.alignment}
+                // width={c.width}
+                headerCellRender={renderTitleHeader}
+              />
+            ))}
             <Paging defaultPageSize={10} />
             <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
           </DataGrid>
@@ -171,8 +160,8 @@ export const AllBurgers = (): JSX.Element => {
           setOpen={setEditPayment}
           payload={editPayload}
         /> */}
-        </PreLoader>
-      </div>
+        </div>
+      </PreLoader>
     </>
   );
 };
