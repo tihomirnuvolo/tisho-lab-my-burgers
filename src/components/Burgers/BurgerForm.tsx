@@ -64,6 +64,19 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
     }
   };
 
+  // const handleNameKeyUp = (e?: any) => {
+  //   console.log("handleNameKeyUp");
+  //   // const { previousValue, value } = e;
+
+  //   // const isValidAfterChange =
+  //   //   value.length > 0 &&
+  //   //   payload.current.quantity > 0 &&
+  //   //   payload.current.list_price > 0; // && Object.values(Currencies).includes(payload.current.currency);
+  //   // if (isValid !== isValidAfterChange) {
+  //   //   setIsValid(isValidAfterChange);
+  //   // }
+  // };
+
   const BurgerForm = () => {
     return (
       <>
@@ -72,14 +85,17 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
           formData={payload.current}
           onFieldDataChanged={onFieldChanged}
           width="100%"
+          showRequiredMark
         >
           <Item
             dataField="name"
             label={{ text: "Name" }}
             editorType="dxTextBox"
+            isRequired
             editorOptions={{
               autoResizeEnabled: true,
               disabled,
+              // onKeyUp: { handleNameKeyUp },
             }}
             colCount={1}
             colSpan={1}
@@ -88,6 +104,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             dataField="list_price"
             editorType="dxNumberBox"
             label={{ text: "Price" }}
+            isRequired
             editorOptions={{
               format: { precision: 2 },
               disabled,
@@ -109,6 +126,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
           <Item
             dataField="quantity"
             editorType="dxNumberBox"
+            isRequired
             label={{ text: "Quantity" }}
             editorOptions={{
               format: { precision: 0 },
