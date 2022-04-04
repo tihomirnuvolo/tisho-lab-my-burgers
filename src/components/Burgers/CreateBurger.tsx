@@ -9,6 +9,7 @@ import { BurgerFormModal } from "./BurgerForm";
 interface CreateBurgerProps {
   open: boolean;
   setOpen(open: boolean): void;
+  setIsLoading(open: boolean): void;
 }
 
 const CreateBurgerComponent = (props: CreateBurgerProps) => {
@@ -21,7 +22,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
     quantity: 50,
   } as Burger;
 
-  const { open, setOpen } = props;
+  const { open, setOpen, setIsLoading } = props;
 
   const dispatch = useDispatch();
   const payload = useRef(defaultBurger);
@@ -52,7 +53,10 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
       resetBurgerForm();
     };
 
-    addBurger(payload.current, onSuccess, onFail);
+    addBurger(payload.current, onSuccess, onFail).finally(() => {
+      setIsLoading(false);
+      setOpen(false);
+    });
   };
 
   return (
@@ -63,6 +67,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
       payload={payload}
       onSave={saveBurger}
       disabled={false}
+      setIsLoading={setIsLoading}
     />
   );
 };

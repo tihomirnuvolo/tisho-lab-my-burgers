@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBurgers } from "src/services/BurgerService";
 import { burgersState } from "src/store/burgersSlice";
@@ -26,6 +26,7 @@ export const AllBurgers = (): JSX.Element => {
   const { burgers } = useSelector(burgersState);
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [createBurger, setCreateBurger] = useState(false);
   const [editBurger, setEditBurger] = useState(false);
   const editPayload = useRef({} as Burger);
@@ -97,13 +98,9 @@ export const AllBurgers = (): JSX.Element => {
     setEditBurger(true);
   };
 
-  const refreshList = useCallback(() => {
-    dispatch(getBurgers());
-  }, []);
-
   return (
     <>
-      <PreLoader mode="page" isLoading={!burgers}>
+      <PreLoader mode="page" isLoading={!burgers || isLoading}>
         <div style={{ margin: "1rem" }}>
           <div style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
             <Container
@@ -165,12 +162,16 @@ export const AllBurgers = (): JSX.Element => {
             <Paging defaultPageSize={10} />
             <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
           </DataGrid>
-          <CreateBurger open={createBurger} setOpen={setCreateBurger} />
+          <CreateBurger
+            open={createBurger}
+            setOpen={setCreateBurger}
+            setIsLoading={setIsLoading}
+          />
           <UpdateBurger
-            refreshList={refreshList}
             open={editBurger}
             setOpen={setEditBurger}
             payload={editPayload}
+            setIsLoading={setIsLoading}
           />
         </div>
       </PreLoader>

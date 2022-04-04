@@ -22,8 +22,8 @@ const addBurger = (
   burger: Burger,
   resolveHandler: Function,
   errorHandler: Function
-) => {
-  Http.post("/api/x_nuvo_my_burgers/burgers/addBurger", burger)
+): Promise<any> => {
+  return Http.post("/api/x_nuvo_my_burgers/burgers/addBurger", burger)
     .then((response) => {
       addBurgerRecord(burger);
       resolveHandler(response);
@@ -38,8 +38,8 @@ const updateBurger = (
   burger: Burger,
   resolveHandler: Function,
   errorHandler: Function
-) => {
-  Http.put("/api/x_nuvo_my_burgers/burgers/updateBurger", burger)
+): Promise<any> => {
+  return Http.put("/api/x_nuvo_my_burgers/burgers/updateBurger", burger)
     .then((response) => {
       updateBurgerRecord(burger);
       resolveHandler(response);

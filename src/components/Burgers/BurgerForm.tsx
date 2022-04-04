@@ -13,15 +13,18 @@ interface BurgerFormProps {
   setOpen(open: boolean): void;
   onSave(): void;
   disabled: boolean;
+  setIsLoading(open: boolean): void;
 }
 
 export const BurgerFormModal = (props: BurgerFormProps) => {
   //   const msg = useNuvoMessages();
-  const [isLoading, setIsLoading] = useState(false);
+  const { payload, title, open, setOpen, onSave, disabled, setIsLoading } =
+    props;
+
   const [isValid, setIsValid] = useState(false);
   const [changesWereMade, setChangesWereMade] = useState(false);
+  const [disableControls, setDisableControls] = useState(disabled);
 
-  const { payload, title, open, setOpen, onSave, disabled } = props;
   const currenciesList = Object.values(Currencies);
 
   const _onClose = () => {
@@ -32,9 +35,9 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
     if (!isValid) {
       return;
     }
+    setDisableControls(true);
     setIsLoading(true);
     onSave();
-    _onClose();
   };
 
   const checkChangesMade = () => {
@@ -94,7 +97,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             isRequired
             editorOptions={{
               autoResizeEnabled: true,
-              disabled,
+              disableControls,
               // onKeyUp: { handleNameKeyUp },
             }}
             colCount={1}
@@ -107,7 +110,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             isRequired
             editorOptions={{
               format: { precision: 2 },
-              disabled,
+              disableControls,
             }}
             colCount={1}
             colSpan={2}
@@ -130,7 +133,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             label={{ text: "Quantity" }}
             editorOptions={{
               format: { precision: 0 },
-              disabled,
+              disableControls,
             }}
             colCount={1}
             colSpan={4}

@@ -9,12 +9,12 @@ interface UpdateBurgerProps {
   payload: React.MutableRefObject<Burger>;
   open: boolean;
   setOpen(open: boolean): void;
-  refreshList(): void;
+  setIsLoading(open: boolean): void;
 }
 
 const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
   //   const msg = useNuvoMessages();
-  const { payload, open, setOpen, refreshList } = props;
+  const { payload, open, setOpen, setIsLoading } = props;
   const dispatch = useDispatch();
 
   const saveBurger = () => {
@@ -25,7 +25,6 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
           content: "Burger info updated!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
         })
       );
-      refreshList();
       dispatch(getBurgers());
     };
 
@@ -38,7 +37,10 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
       );
     };
 
-    updateBurger(payload.current, onSuccess, onFail);
+    updateBurger(payload.current, onSuccess, onFail).finally(() => {
+      setIsLoading(false);
+      setOpen(false);
+    });
   };
 
   return (
@@ -49,6 +51,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
       payload={payload}
       onSave={saveBurger}
       disabled={false}
+      setIsLoading={setIsLoading}
     />
   );
 };
