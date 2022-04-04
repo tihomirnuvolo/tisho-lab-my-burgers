@@ -54,6 +54,14 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
       };
       checkChangesMade();
     }
+
+    const isValidAfterChange =
+      payload.current.name.length > 0 &&
+      payload.current.quantity > 0 &&
+      payload.current.list_price > 0; // && Object.values(Currencies).includes(payload.current.currency);
+    if (isValid !== isValidAfterChange) {
+      setIsValid(isValidAfterChange);
+    }
   };
 
   const BurgerForm = () => {
@@ -110,11 +118,13 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             colSpan={4}
           />
         </NuvoForm>
-        <NuvoButton
-          label="Save"
-          disabled={!changesWereMade || !isValid}
-          onClick={_onSave}
-        />
+        <div style={{ padding: "30px 0 10px 0" }}>
+          <NuvoButton
+            label="Save"
+            disabled={!changesWereMade || !isValid}
+            onClick={_onSave}
+          />
+        </div>
       </>
     );
   };

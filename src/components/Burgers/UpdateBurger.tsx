@@ -1,45 +1,32 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { Burger } from "src/types/Burger";
 import { showInfoToast } from "src/store/ToastSlice";
-import { addBurger, getBurgers } from "src/services/BurgerService";
-import { Currencies } from "src/types/Currencies";
+import { getBurgers, updateBurger } from "src/services/BurgerService";
 import { BurgerFormModal } from "./BurgerForm";
 
-interface CreateBurgerProps {
+interface UpdateBurgerProps {
+  payload: React.MutableRefObject<Burger>;
   open: boolean;
   setOpen(open: boolean): void;
+  refreshList(): void;
 }
 
-const CreateBurgerComponent = (props: CreateBurgerProps) => {
+const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
   //   const msg = useNuvoMessages();
-  const defaultBurger = {
-    sys_id: "",
-    name: "",
-    list_price: 0,
-    currency: Currencies.USD,
-    quantity: 50,
-  } as Burger;
-
-  const { open, setOpen } = props;
-
+  const { payload, open, setOpen, refreshList } = props;
   const dispatch = useDispatch();
-  const payload = useRef(defaultBurger);
 
   const saveBurger = () => {
-    const resetBurgerForm = () => {
-      payload.current = defaultBurger;
-    };
-
     const onSuccess = () => {
       dispatch(
         showInfoToast({
           type: "success",
-          content: "New burger added!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+          content: "Burger info updated!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
         })
       );
+      refreshList();
       dispatch(getBurgers());
-      resetBurgerForm();
     };
 
     const onFail = () => {
@@ -49,15 +36,14 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
           content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
         })
       );
-      resetBurgerForm();
     };
 
-    addBurger(payload.current, onSuccess, onFail);
+    updateBurger(payload.current, onSuccess, onFail);
   };
 
   return (
     <BurgerFormModal
-      title="New Burger"
+      title="Edit Burger"
       open={open}
       setOpen={setOpen}
       payload={payload}
@@ -67,4 +53,4 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
   );
 };
 
-export const CreateBurger = React.memo(CreateBurgerComponent);
+export const UpdateBurger = React.memo(UpdateBurgerComponent);

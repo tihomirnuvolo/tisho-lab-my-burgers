@@ -4,9 +4,11 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { burgersSlice } from "./burgersSlice";
+import { toastSlice } from "./ToastSlice";
 
 const rootReducer = combineReducers({
   burgers: burgersSlice.reducer,
+  toast: toastSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

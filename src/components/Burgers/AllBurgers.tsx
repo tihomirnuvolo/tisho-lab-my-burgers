@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBurgers } from "src/services/BurgerService";
 import { burgersState } from "src/store/burgersSlice";
@@ -16,6 +16,7 @@ import { Burger } from "src/types/Burger";
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
 import { Col, Container, Row } from "react-bootstrap";
 import { CreateBurger } from "./CreateBurger";
+import { UpdateBurger } from "./UpdateBurger";
 
 function renderTitleHeader(data: any) {
   return <div style={{ whiteSpace: "pre-wrap" }}>{data.column.caption}</div>;
@@ -89,6 +90,17 @@ export const AllBurgers = (): JSX.Element => {
     setCreateBurger(true);
   };
 
+  const onRowClick = (e: any) => {
+    editPayload.current = {
+      ...e.data,
+    };
+    setEditBurger(true);
+  };
+
+  const refreshList = useCallback(() => {
+    dispatch(getBurgers());
+  }, []);
+
   return (
     <>
       <PreLoader mode="page" isLoading={!burgers}>
@@ -119,12 +131,12 @@ export const AllBurgers = (): JSX.Element => {
             showRowLines
             columnAutoWidth
             allowColumnReordering
-            // onRowClick={onRowClick}
-            selection={{
-              mode: "none",
-              deferred: true,
-              showCheckBoxesMode: "none",
-            }}
+            onRowClick={onRowClick}
+            // selection={{
+            //   mode: "none",
+            //   deferred: true,
+            //   showCheckBoxesMode: "none",
+            // }}
             configName={BURGERS_COLUMN_CONFIG}
             height="100%"
           >
@@ -154,12 +166,12 @@ export const AllBurgers = (): JSX.Element => {
             <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
           </DataGrid>
           <CreateBurger open={createBurger} setOpen={setCreateBurger} />
-          {/* <UpdatePayment
-          refreshList={refreshList}
-          open={editPayment}
-          setOpen={setEditPayment}
-          payload={editPayload}
-        /> */}
+          <UpdateBurger
+            refreshList={refreshList}
+            open={editBurger}
+            setOpen={setEditBurger}
+            payload={editPayload}
+          />
         </div>
       </PreLoader>
     </>
