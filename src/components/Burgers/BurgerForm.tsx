@@ -21,7 +21,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
   const { payload, title, open, setOpen, onSave, disabled, setIsLoading } =
     props;
 
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [changesWereMade, setChangesWereMade] = useState(false);
   const [disableControls, setDisableControls] = useState(disabled);
 
@@ -29,6 +29,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
 
   const _onClose = () => {
     setOpen(false);
+    setChangesWereMade(false);
   };
 
   const _onSave = () => {
@@ -139,11 +140,23 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             colSpan={4}
           />
         </NuvoForm>
-        <div style={{ padding: "30px 0 10px 0" }}>
+        <div
+          style={{
+            padding: "30px 0 10px 0",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <NuvoButton
             label="Save"
             disabled={!changesWereMade || !isValid}
             onClick={_onSave}
+          />
+          <NuvoButton
+            label="Buy"
+            disabled={changesWereMade}
+            onClick={_onSave}
+            visible={(payload?.current?.sys_id?.length ?? 0) > 0}
           />
         </div>
       </>

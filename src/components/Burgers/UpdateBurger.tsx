@@ -45,7 +45,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
 
   return (
     <BurgerFormModal
-      title="Edit Burger"
+      title="Burger Details"
       open={open}
       setOpen={setOpen}
       payload={payload}

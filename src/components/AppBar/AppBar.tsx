@@ -39,8 +39,9 @@ const TopLevel = (): JSX.Element => {
       </div>
       <div style={{ width: "50%", float: "left", textAlign: "right" }}>
         <span>{user?.name}</span>
-        {user?.wallets.map((wallet) => (
-          <span>{` | ${wallet.balance} ${wallet.currency}`}</span>
+        {user?.wallets.map((wallet, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <span key={index}>{` | ${wallet.balance} ${wallet.currency}`}</span>
         ))}
       </div>
     </NavBar>
