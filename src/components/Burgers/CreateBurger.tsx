@@ -66,6 +66,9 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
       setOpen={setOpen}
       payload={payload}
       onSave={saveBurger}
+      onBuy={() => {
+        // do nothing
+      }}
       disabled={false}
       setIsLoading={setIsLoading}
     />

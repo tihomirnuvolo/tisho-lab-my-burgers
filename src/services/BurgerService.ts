@@ -50,4 +50,22 @@ const updateBurger = (
     });
 };
 
-export { getBurgers, addBurger, updateBurger };
+const buyBurger = (
+  user_id: string,
+  burger_id: string,
+  resolveHandler: Function,
+  errorHandler: Function
+): Promise<any> => {
+  return Http.put(
+    `/api/x_nuvo_my_burgers/burgers/buyBurger?user_id=${user_id}&burger_id=${burger_id}`
+  )
+    .then((response) => {
+      resolveHandler(response);
+    })
+    .catch((error) => {
+      console.warn("Error while updating an existing burger: ", error);
+      errorHandler(error);
+    });
+};
+
+export { getBurgers, addBurger, updateBurger, buyBurger };

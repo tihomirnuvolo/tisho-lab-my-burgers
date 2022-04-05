@@ -1,8 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Burger } from "src/types/Burger";
 import { showInfoToast } from "src/store/ToastSlice";
-import { getBurgers, updateBurger } from "src/services/BurgerService";
+import {
+  getBurgers,
+  updateBurger,
+  buyBurger,
+} from "src/services/BurgerService";
+import { userState } from "src/store/userSlice";
+import { getUserDetails } from "src/services/UserService";
 import { BurgerFormModal } from "./BurgerForm";
 
 interface UpdateBurgerProps {
@@ -16,8 +22,9 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
   //   const msg = useNuvoMessages();
   const { payload, open, setOpen, setIsLoading } = props;
   const dispatch = useDispatch();
+  const { user } = useSelector(userState);
 
-  const saveBurger = () => {
+  const onSaveBurger = () => {
     const onSuccess = () => {
       dispatch(
         showInfoToast({
@@ -43,13 +50,46 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
     });
   };
 
+  const onBuyBurger = () => {
+    const onSuccess = () => {
+      dispatch(
+        showInfoToast({
+          type: "success",
+          content: "Bon appetit!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+        })
+      );
+      dispatch(getBurgers());
+      dispatch(getUserDetails());
+    };
+
+    const onFail = () => {
+      dispatch(
+        showInfoToast({
+          type: "error",
+          content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
+        })
+      );
+    };
+
+    buyBurger(
+      user?.user_sys_id ?? "",
+      payload.current.sys_id,
+      onSuccess,
+      onFail
+    ).finally(() => {
+      setIsLoading(false);
+      setOpen(false);
+    });
+  };
+
   return (
     <BurgerFormModal
       title="Burger Details"
       open={open}
       setOpen={setOpen}
       payload={payload}
-      onSave={saveBurger}
+      onSave={onSaveBurger}
+      onBuy={onBuyBurger}
       disabled={false}
       setIsLoading={setIsLoading}
     />

@@ -12,14 +12,23 @@ interface BurgerFormProps {
   open: boolean;
   setOpen(open: boolean): void;
   onSave(): void;
+  onBuy(): void;
   disabled: boolean;
   setIsLoading(open: boolean): void;
 }
 
 export const BurgerFormModal = (props: BurgerFormProps) => {
   //   const msg = useNuvoMessages();
-  const { payload, title, open, setOpen, onSave, disabled, setIsLoading } =
-    props;
+  const {
+    payload,
+    title,
+    open,
+    setOpen,
+    onSave,
+    onBuy,
+    disabled,
+    setIsLoading,
+  } = props;
 
   const [isValid, setIsValid] = useState(true);
   const [changesWereMade, setChangesWereMade] = useState(false);
@@ -39,6 +48,12 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
     setDisableControls(true);
     setIsLoading(true);
     onSave();
+  };
+
+  const _onBuy = () => {
+    setDisableControls(true);
+    setIsLoading(true);
+    onBuy();
   };
 
   const checkChangesMade = () => {
@@ -155,7 +170,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
           <NuvoButton
             label="Buy"
             disabled={changesWereMade}
-            onClick={_onSave}
+            onClick={_onBuy}
             visible={(payload?.current?.sys_id?.length ?? 0) > 0}
           />
         </div>
