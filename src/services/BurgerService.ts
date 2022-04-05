@@ -9,6 +9,7 @@ import { Burger } from "src/types/Burger";
 type Dispatch = (arg0: { payload: undefined; type: string }) => string | number;
 
 const getBurgers = () => (dispatch: Dispatch) => {
+  dispatch(setBurgers(undefined)); // do it to improve loading handling
   Http.get("/api/x_nuvo_my_burgers/burgers/getAll")
     .then((response) => {
       dispatch(setBurgers(response.data.result));

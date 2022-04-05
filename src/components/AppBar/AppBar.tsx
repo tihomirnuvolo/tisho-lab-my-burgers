@@ -41,7 +41,11 @@ const TopLevel = (): JSX.Element => {
         <span>{user?.name}</span>
         {user?.wallets.map((wallet, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <span key={index}>{` | ${wallet.balance} ${wallet.currency}`}</span>
+          <span key={index}>
+            {` | ${(Math.round(wallet.balance * 100) / 100).toFixed(2)} ${
+              wallet.currency
+            }`}
+          </span>
         ))}
       </div>
     </NavBar>
