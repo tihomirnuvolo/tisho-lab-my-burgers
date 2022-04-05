@@ -48,16 +48,16 @@ export const AllBurgers = (): JSX.Element => {
     },
     {
       columnName: "list_price",
-      columnLabel: "Price",
+      columnLabel: "Price (USD)",
       columnType: "number",
       visible: true,
     },
-    {
-      columnName: "currency",
-      columnLabel: "Currency",
-      columnType: "string",
-      visible: true,
-    },
+    // {
+    //   columnName: "currency",
+    //   columnLabel: "Currency",
+    //   columnType: "string",
+    //   visible: true,
+    // },
     {
       columnName: "quantity",
       columnLabel: "Quantity",

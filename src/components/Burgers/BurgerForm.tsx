@@ -106,7 +106,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
           <Item
             dataField="list_price"
             editorType="dxNumberBox"
-            label={{ text: "Price" }}
+            label={{ text: "Price (USD)" }}
             isRequired
             editorOptions={{
               format: { precision: 2 },
@@ -115,7 +115,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             colCount={1}
             colSpan={2}
           />
-          <Item
+          {/* <Item
             dataField="currency"
             editorType="dxRadioGroup"
             editorOptions={{
@@ -125,7 +125,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
             }}
             colCount={1}
             colSpan={3}
-          />
+          /> */}
           <Item
             dataField="quantity"
             editorType="dxNumberBox"
