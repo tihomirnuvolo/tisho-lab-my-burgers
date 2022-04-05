@@ -5,10 +5,12 @@ import {
 } from "@reduxjs/toolkit";
 import { burgersSlice } from "./burgersSlice";
 import { toastSlice } from "./ToastSlice";
+import { userSlice } from "./userSlice";
 
 const rootReducer = combineReducers({
   burgers: burgersSlice.reducer,
   toast: toastSlice.reducer,
+  user: userSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

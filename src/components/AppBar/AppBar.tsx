@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { NuvoAppBar } from "@nuvolo/nuux/components/NuvoAppBar";
 import { NuvoAppBarTitle } from "@nuvolo/nuux/components/NuvoAppBarTitle";
 // import { useNuvoMessages } from "@nuvolo/nuux/hooks/useNuvoMessages";
 // import { appTitleKey } from "@utils/constants";
 import burgerImage from "src/assets/burger.png";
+import { useDispatch, useSelector } from "react-redux";
+import { userState } from "src/store/userSlice";
+import { getUserDetails } from "src/services/UserService";
 
 export const NavBar = styled.nav`
   display: flex;
@@ -16,6 +19,13 @@ export const NavBar = styled.nav`
 const TopLevel = (): JSX.Element => {
   // const msg = useNuvoMessages();
   // const title = msg.get(appTitleKey);
+  const { user } = useSelector(userState);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserDetails());
+  }, []);
+
   const title = "My Burgers App";
   return (
     <NavBar>
@@ -24,7 +34,15 @@ const TopLevel = (): JSX.Element => {
         alt="Burger"
         style={{ maxWidth: "100%", maxHeight: "100%" }}
       />
-      <NuvoAppBarTitle>{title}</NuvoAppBarTitle>
+      <div style={{ width: "50%", float: "left", textAlign: "left" }}>
+        <NuvoAppBarTitle>{title}</NuvoAppBarTitle>
+      </div>
+      <div style={{ width: "50%", float: "left", textAlign: "right" }}>
+        <span>{user?.name}</span>
+        {user?.wallets.map((wallet) => (
+          <span>{` | ${wallet.balance} ${wallet.currency}`}</span>
+        ))}
+      </div>
     </NavBar>
   );
 };
