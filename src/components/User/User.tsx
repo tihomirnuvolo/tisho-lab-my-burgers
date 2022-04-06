@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PreLoader } from "src/nuvolo/nuux/components/NuvoLoader";
 import {
@@ -12,6 +12,9 @@ import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
 import { Col, Container, Row } from "react-bootstrap";
 import { userState } from "src/store/userSlice";
 import { Wallet } from "src/types/Wallet";
+import { getUserDetails } from "src/services/UserService";
+import { CreateWallet } from "./CreateWallet";
+import { UpdateWallet } from "./UpdateWallet";
 
 function renderTitleHeader(data: any) {
   return <div style={{ whiteSpace: "pre-wrap" }}>{data.column.caption}</div>;
@@ -25,6 +28,10 @@ export const User = (): JSX.Element => {
   const [createWallet, setCreateWallet] = useState(false);
   const [editWallet, setEditWallet] = useState(false);
   const editPayload = useRef({} as Wallet);
+
+  useEffect(() => {
+    if (!user) dispatch(getUserDetails());
+  }, []);
 
   const columnMap: Array<ColumnParams> = [
     {
@@ -84,7 +91,7 @@ export const User = (): JSX.Element => {
             >
               <Row style={{ margin: "0" }}>
                 <Col style={{ textAlign: "left" }}>
-                  <h1>All Burgers</h1>
+                  <h1>User Wallets</h1>
                 </Col>
                 <Col style={{ textAlign: "right" }}>
                   <NuvoButton label="Add New" onClick={onAddNewClick} />
@@ -117,17 +124,17 @@ export const User = (): JSX.Element => {
             <Paging defaultPageSize={10} />
             <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
           </NuvoDataGrid>
-          {/* <CreateBurger
+          <CreateWallet
             open={createWallet}
-            setOpen={setCreateBurger}
+            setOpen={setCreateWallet}
             setIsLoading={setIsLoading}
           />
-          <UpdateBurger
-            open={editBurger}
-            setOpen={setEditBurger}
+          <UpdateWallet
+            open={editWallet}
+            setOpen={setEditWallet}
             payload={editPayload}
             setIsLoading={setIsLoading}
-          /> */}
+          />
         </div>
       </PreLoader>
     </>
