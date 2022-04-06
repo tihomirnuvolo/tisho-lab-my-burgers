@@ -4,7 +4,8 @@ import { NuvoModal } from "@nuvolo/nuux/components/NuvoModal";
 import { Item, NuvoForm } from "@nuvolo/nuux/components/NuvoForm";
 import { Burger } from "src/types/Burger";
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
-import { Currencies } from "src/types/Currencies";
+import { useSelector } from "react-redux";
+import { userState } from "src/store/userSlice";
 
 interface BurgerFormProps {
   title: string;
@@ -34,7 +35,17 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
   const [changesWereMade, setChangesWereMade] = useState(false);
   const [disableControls, setDisableControls] = useState(disabled);
 
-  const currenciesList = Object.values(Currencies);
+  const { user } = useSelector(userState);
+  const enoughMoney = (): boolean => {
+    if (!user || !payload?.current?.list_price) return false;
+    return user?.wallets.some((wallet) => {
+      return (
+        parseFloat(wallet.ref_balance.toString()) >
+        parseFloat(payload.current.list_price.toString())
+      );
+    });
+  };
+  const isEnoughMoney = enoughMoney();
 
   const _onClose = () => {
     setOpen(false);
@@ -83,100 +94,83 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
     }
   };
 
-  // const handleNameKeyUp = (e?: any) => {
-  //   console.log("handleNameKeyUp");
-  //   // const { previousValue, value } = e;
+  const NotEnoughMoneyLabel = () => {
+    return isEnoughMoney ? null : (
+      <div style={{ marginTop: "5px" }}>Not enough money</div>
+    );
+  };
 
-  //   // const isValidAfterChange =
-  //   //   value.length > 0 &&
-  //   //   payload.current.quantity > 0 &&
-  //   //   payload.current.list_price > 0; // && Object.values(Currencies).includes(payload.current.currency);
-  //   // if (isValid !== isValidAfterChange) {
-  //   //   setIsValid(isValidAfterChange);
-  //   // }
-  // };
-
-  const BurgerForm = () => {
-    return (
-      <>
-        <NuvoForm
-          key={`${title}_burger_form`}
-          formData={payload.current}
-          onFieldDataChanged={onFieldChanged}
-          width="100%"
-          showRequiredMark
-        >
-          <Item
-            dataField="name"
-            label={{ text: "Name" }}
-            editorType="dxTextBox"
-            isRequired
-            editorOptions={{
-              autoResizeEnabled: true,
-              disableControls,
-              // onKeyUp: { handleNameKeyUp },
-            }}
-            colCount={1}
-            colSpan={1}
-          />
-          <Item
-            dataField="list_price"
-            editorType="dxNumberBox"
-            label={{ text: "Price (USD)" }}
-            isRequired
-            editorOptions={{
-              format: { precision: 2 },
-              disableControls,
-            }}
-            colCount={1}
-            colSpan={2}
-          />
-          {/* <Item
-            dataField="currency"
-            editorType="dxRadioGroup"
-            editorOptions={{
-              items: currenciesList,
-              layout: "horizontal",
-              disabled,
-            }}
-            colCount={1}
-            colSpan={3}
-          /> */}
-          <Item
-            dataField="quantity"
-            editorType="dxNumberBox"
-            isRequired
-            label={{ text: "Quantity" }}
-            editorOptions={{
-              format: { precision: 0 },
-              disableControls,
-            }}
-            colCount={1}
-            colSpan={4}
-          />
-        </NuvoForm>
-        <div
-          style={{
-            padding: "30px 0 10px 0",
-            display: "flex",
-            justifyContent: "space-between",
+  const BurgerForm = () => (
+    <>
+      <NuvoForm
+        key={`${title}_burger_form`}
+        formData={payload.current}
+        onFieldDataChanged={onFieldChanged}
+        width="100%"
+        showRequiredMark
+      >
+        <Item
+          dataField="name"
+          label={{ text: "Name" }}
+          editorType="dxTextBox"
+          isRequired
+          editorOptions={{
+            autoResizeEnabled: true,
+            disableControls,
+            // onKeyUp: { handleNameKeyUp },
           }}
-        >
-          <NuvoButton
-            label="Save"
-            disabled={!changesWereMade || !isValid}
-            onClick={_onSave}
-          />
+          colCount={1}
+          colSpan={1}
+        />
+        <Item
+          dataField="list_price"
+          editorType="dxNumberBox"
+          label={{ text: "Price (USD)" }}
+          isRequired
+          editorOptions={{
+            format: { precision: 2 },
+            disableControls,
+          }}
+          colCount={1}
+          colSpan={2}
+        />
+        <Item
+          dataField="quantity"
+          editorType="dxNumberBox"
+          isRequired
+          label={{ text: "Quantity" }}
+          editorOptions={{
+            format: { precision: 0 },
+            disableControls,
+          }}
+          colCount={1}
+          colSpan={4}
+        />
+      </NuvoForm>
+      <div
+        style={{
+          padding: "30px 0 10px 0",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <NuvoButton
+          label="Save"
+          disabled={!changesWereMade || !isValid}
+          onClick={_onSave}
+        />
+        <div style={{ textAlign: "end" }}>
           <NuvoButton
             label="Buy"
-            disabled={changesWereMade}
+            disabled={changesWereMade || !isEnoughMoney}
             onClick={_onBuy}
             visible={(payload?.current?.sys_id?.length ?? 0) > 0}
           />
+          <NotEnoughMoneyLabel />
         </div>
-      </>
-    );
-  };
+      </div>
+    </>
+  );
 
   return (
     <NuvoModal
