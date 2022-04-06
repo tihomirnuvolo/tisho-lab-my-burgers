@@ -18,11 +18,10 @@ const LayoutRouter = (): JSX.Element => {
       <AppBar />
       <ContentContainer>
         <Switch>
-          {routes.map((route, index) => {
+          {routes.map((route) => {
             const { exact, path, component, name } = route;
             const coerceRoot = path === "/";
-            const coercedVal = coerceRoot ? true : false;
-            const exactVal = exact === undefined ? coercedVal : exact;
+            const exactVal = exact === undefined ? coerceRoot : exact;
             return (
               <Route
                 exact={exactVal}

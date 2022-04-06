@@ -8,6 +8,7 @@ import burgerImage from "src/assets/burger.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userState } from "src/store/userSlice";
 import { getUserDetails } from "src/services/UserService";
+import { Link } from "react-router-dom";
 
 export const NavBar = styled.nav`
   display: flex;
@@ -29,24 +30,37 @@ const TopLevel = (): JSX.Element => {
   const title = "My Burgers App";
   return (
     <NavBar>
-      <img
-        src={burgerImage}
-        alt="Burger"
-        style={{ maxWidth: "100%", maxHeight: "100%" }}
-      />
-      <div style={{ width: "50%", float: "left", textAlign: "left" }}>
-        <NuvoAppBarTitle>{title}</NuvoAppBarTitle>
+      <div
+        style={{
+          width: "50%",
+          height: "100%",
+          float: "left",
+          textAlign: "left",
+        }}
+      >
+        <Link to="/">
+          <img
+            src={burgerImage}
+            alt="Burger"
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
+          <div style={{ display: "inline-block" }}>
+            <NuvoAppBarTitle>{title}</NuvoAppBarTitle>
+          </div>
+        </Link>
       </div>
       <div style={{ width: "50%", float: "left", textAlign: "right" }}>
-        <span>{user?.name}</span>
-        {user?.wallets.map((wallet, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <span key={index}>
-            {` | ${(Math.round(wallet.balance * 100) / 100).toFixed(2)} ${
-              wallet.currency
-            }`}
-          </span>
-        ))}
+        <Link to="/user">
+          <span>{user?.name}</span>
+          {user?.wallets.map((wallet, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <span key={index}>
+              {` | ${(Math.round(wallet.balance * 100) / 100).toFixed(2)} ${
+                wallet.currency
+              }`}
+            </span>
+          ))}
+        </Link>
       </div>
     </NavBar>
   );

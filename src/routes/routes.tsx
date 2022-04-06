@@ -1,14 +1,16 @@
-import React from "react";
 import { NuvoRoute } from "@nuvolo/nuux/components/NuvoApp";
-import { AllBurgersView } from "@views/index";
-
-const example = "EXAMPLE";
+import { AllBurgersView, UserView } from "@views/index";
 
 const Routes: NuvoRoute[] = [
   {
     path: "/",
     component: AllBurgersView,
-    name: example,
+    name: "ALL_BURGERS",
+  },
+  {
+    path: "/user",
+    component: UserView,
+    name: "USER",
   },
 ];
 
