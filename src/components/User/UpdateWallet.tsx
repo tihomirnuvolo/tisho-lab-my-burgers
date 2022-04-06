@@ -1,9 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Wallet } from "src/types/Wallet";
 import { showInfoToast } from "src/store/ToastSlice";
 import { getUserDetails, updateWallet } from "src/services/UserService";
-import { userState } from "src/store/userSlice";
 import { WalletFormModal } from "./WalletForm";
 
 interface UpdateWalletProps {
@@ -17,7 +16,6 @@ const UpdateWalletComponent = (props: UpdateWalletProps) => {
   //   const msg = useNuvoMessages();
   const { payload, open, setOpen, setIsLoading } = props;
   const dispatch = useDispatch();
-  const { user } = useSelector(userState);
 
   const onSaveWallet = () => {
     const onSuccess = () => {

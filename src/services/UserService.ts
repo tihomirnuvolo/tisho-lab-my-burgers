@@ -21,10 +21,15 @@ const getUserDetails = () => (dispatch: Dispatch) => {
 
 const addWallet = (
   wallet: Wallet,
+  user_id: string,
   resolveHandler: Function,
   errorHandler: Function
 ): Promise<any> => {
-  return Http.post("/api/x_nuvo_my_burgers/burgers/addWallet", wallet)
+  return Http.post("/api/x_nuvo_my_burgers/burgers/addWallet", {
+    user_id,
+    balance: wallet.balance,
+    currency: wallet.currency,
+  })
     .then((response) => {
       addWalletRecord(wallet);
       resolveHandler(response);

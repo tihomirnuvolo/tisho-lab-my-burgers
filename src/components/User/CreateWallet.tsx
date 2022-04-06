@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Wallet } from "src/types/Wallet";
 import { showInfoToast } from "src/store/ToastSlice";
 import { addWallet, getUserDetails } from "src/services/UserService";
 import { Currencies } from "src/types/Currencies";
+import { userState } from "src/store/userSlice";
 import { WalletFormModal } from "./WalletForm";
 
 interface CreateWalletProps {
@@ -23,6 +24,7 @@ const CreateWalletComponent = (props: CreateWalletProps) => {
   } as Wallet;
 
   const { open, setOpen, setIsLoading } = props;
+  const { user } = useSelector(userState);
 
   const dispatch = useDispatch();
   const payload = useRef(defaultWallet);
@@ -53,7 +55,12 @@ const CreateWalletComponent = (props: CreateWalletProps) => {
       resetWalletForm();
     };
 
-    addWallet(payload.current, onSuccess, onFail).finally(() => {
+    addWallet(
+      payload.current,
+      user?.user_sys_id ?? "",
+      onSuccess,
+      onFail
+    ).finally(() => {
       setIsLoading(false);
       setOpen(false);
     });
