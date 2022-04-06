@@ -34,28 +34,27 @@ export const User = (): JSX.Element => {
       visible: false,
     },
     {
-      columnName: "name",
-      columnLabel: "Name",
+      columnName: "balance",
+      columnLabel: "Balance",
+      columnType: "number",
+      visible: true,
+      alignment: "left",
+      format: { precision: 2, type: "fixedPoint" },
+    },
+    {
+      columnName: "currency",
+      columnLabel: "Wallet Currency",
       columnType: "string",
       visible: true,
+      alignment: "left",
     },
     {
-      columnName: "list_price",
-      columnLabel: "Price (USD)",
+      columnName: "ref_balance",
+      columnLabel: "Balance (USD)",
       columnType: "number",
       visible: true,
-    },
-    // {
-    //   columnName: "currency",
-    //   columnLabel: "Currency",
-    //   columnType: "string",
-    //   visible: true,
-    // },
-    {
-      columnName: "quantity",
-      columnLabel: "Quantity",
-      columnType: "number",
-      visible: true,
+      alignment: "left",
+      format: { precision: 2, type: "fixedPoint" },
     },
   ];
 
@@ -95,7 +94,7 @@ export const User = (): JSX.Element => {
           </div>
           <NuvoDataGrid
             keyExpr="sys_id"
-            dataSource={burgers}
+            dataSource={user?.wallets}
             showBorders
             showColumnLines
             showRowLines
@@ -110,13 +109,15 @@ export const User = (): JSX.Element => {
                 dataField={c.columnName}
                 dataType={c.columnType}
                 visible={c.visible}
+                alignment={c.alignment}
+                format={c.format}
                 headerCellRender={renderTitleHeader}
               />
             ))}
             <Paging defaultPageSize={10} />
             <Pager showPageSizeSelector allowedPageSizes={[10, 20, 50, 100]} />
           </NuvoDataGrid>
-          <CreateBurger
+          {/* <CreateBurger
             open={createWallet}
             setOpen={setCreateBurger}
             setIsLoading={setIsLoading}
@@ -126,7 +127,7 @@ export const User = (): JSX.Element => {
             setOpen={setEditBurger}
             payload={editPayload}
             setIsLoading={setIsLoading}
-          />
+          /> */}
         </div>
       </PreLoader>
     </>

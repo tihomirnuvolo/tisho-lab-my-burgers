@@ -30,7 +30,7 @@ export const AllBurgers = (): JSX.Element => {
   const editPayload = useRef({} as Burger);
 
   useEffect(() => {
-    dispatch(getBurgers());
+    if (!burgers) dispatch(getBurgers());
   }, []);
 
   const columnMap: Array<ColumnParams> = [
