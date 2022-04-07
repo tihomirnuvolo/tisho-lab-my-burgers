@@ -56,15 +56,15 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
   };
 
   const _onSave = () => {
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
+
     setDisableControls(true);
     setIsLoading(true);
     onSave();
   };
 
   const _onBuy = () => {
+    if (!isEnoughMoney) return;
     setDisableControls(true);
     setIsLoading(true);
     onBuy();
@@ -98,7 +98,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
   };
 
   const NotEnoughMoneyLabel = () => {
-    return isEnoughMoney ? null : (
+    return changesWereMade || isEnoughMoney ? null : (
       <div style={{ marginTop: "5px" }}>
         {getMessage(msg, "MB_NOT_ENOUGH_MONEY")}
       </div>

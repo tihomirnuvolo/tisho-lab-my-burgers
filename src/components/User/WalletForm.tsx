@@ -35,9 +35,7 @@ export const WalletFormModal = (props: WalletFormProps) => {
   };
 
   const _onSave = () => {
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
     setDisableControls(true);
     setIsLoading(true);
     onSave();
