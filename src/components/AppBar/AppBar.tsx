@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { NuvoAppBar } from "@nuvolo/nuux/components/NuvoAppBar";
 import { NuvoAppBarTitle } from "@nuvolo/nuux/components/NuvoAppBarTitle";
-// import { useNuvoMessages } from "@nuvolo/nuux/hooks/useNuvoMessages";
-// import { appTitleKey } from "@utils/constants";
 import burgerImage from "src/assets/burger.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userState } from "src/store/userSlice";
 import { getUserDetails } from "src/services/UserService";
 import { Link } from "react-router-dom";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 
 export const NavBar = styled.nav`
   display: flex;
@@ -18,8 +18,7 @@ export const NavBar = styled.nav`
 `;
 
 const TopLevel = (): JSX.Element => {
-  // const msg = useNuvoMessages();
-  // const title = msg.get(appTitleKey);
+  const msg = useNuvoMessages();
   const { user } = useSelector(userState);
   const dispatch = useDispatch();
 
@@ -27,7 +26,6 @@ const TopLevel = (): JSX.Element => {
     dispatch(getUserDetails());
   }, []);
 
-  const title = "My Burgers App";
   return (
     <NavBar>
       <div
@@ -45,7 +43,7 @@ const TopLevel = (): JSX.Element => {
             style={{ maxWidth: "100%", maxHeight: "100%" }}
           />
           <div style={{ display: "inline-block" }}>
-            <NuvoAppBarTitle>{title}</NuvoAppBarTitle>
+            <NuvoAppBarTitle>{getMessage(msg, "MB_TITLE")}</NuvoAppBarTitle>
           </div>
         </Link>
       </div>

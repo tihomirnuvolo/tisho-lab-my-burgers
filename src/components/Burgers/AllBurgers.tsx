@@ -13,6 +13,8 @@ import { ColumnParams } from "src/types/columnParams";
 import { Burger } from "src/types/Burger";
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
 import { Col, Container, Row } from "react-bootstrap";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 import { CreateBurger } from "./CreateBurger";
 import { UpdateBurger } from "./UpdateBurger";
 
@@ -21,6 +23,7 @@ function renderTitleHeader(data: any) {
 }
 
 export const AllBurgers = (): JSX.Element => {
+  const msg = useNuvoMessages();
   const { burgers } = useSelector(burgersState);
   const dispatch = useDispatch();
 
@@ -36,31 +39,25 @@ export const AllBurgers = (): JSX.Element => {
   const columnMap: Array<ColumnParams> = [
     {
       columnName: "sys_id",
-      columnLabel: "Id",
+      columnLabel: getMessage(msg, "MB_ID"),
       columnType: "string",
       visible: false,
     },
     {
       columnName: "name",
-      columnLabel: "Name",
+      columnLabel: getMessage(msg, "MB_NAME"),
       columnType: "string",
       visible: true,
     },
     {
       columnName: "list_price",
-      columnLabel: "Price (USD)",
+      columnLabel: `${getMessage(msg, "MB_PRICE")} (USD)`,
       columnType: "number",
       visible: true,
     },
-    // {
-    //   columnName: "currency",
-    //   columnLabel: "Currency",
-    //   columnType: "string",
-    //   visible: true,
-    // },
     {
       columnName: "quantity",
-      columnLabel: "Quantity",
+      columnLabel: getMessage(msg, "MB_QUANTITY"),
       columnType: "number",
       visible: true,
     },
@@ -95,7 +92,10 @@ export const AllBurgers = (): JSX.Element => {
                   <h1>All Burgers</h1>
                 </Col>
                 <Col style={{ textAlign: "right" }}>
-                  <NuvoButton label="Add New" onClick={onAddNewClick} />
+                  <NuvoButton
+                    label={getMessage(msg, "MB_ADD_NEW")}
+                    onClick={onAddNewClick}
+                  />
                 </Col>
               </Row>
             </Container>

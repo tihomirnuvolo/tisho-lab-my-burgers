@@ -13,6 +13,8 @@ import { Col, Container, Row } from "react-bootstrap";
 import { userState } from "src/store/userSlice";
 import { Wallet } from "src/types/Wallet";
 import { getUserDetails } from "src/services/UserService";
+import { getMessage } from "@utils/messages";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
 import { CreateWallet } from "./CreateWallet";
 import { UpdateWallet } from "./UpdateWallet";
 
@@ -21,6 +23,7 @@ function renderTitleHeader(data: any) {
 }
 
 export const User = (): JSX.Element => {
+  const msg = useNuvoMessages();
   const { user } = useSelector(userState);
   const dispatch = useDispatch();
 
@@ -36,13 +39,13 @@ export const User = (): JSX.Element => {
   const columnMap: Array<ColumnParams> = [
     {
       columnName: "sys_id",
-      columnLabel: "Id",
+      columnLabel: getMessage(msg, "MB_ID"),
       columnType: "string",
       visible: false,
     },
     {
       columnName: "balance",
-      columnLabel: "Balance",
+      columnLabel: getMessage(msg, "MB_BALANCE"),
       columnType: "number",
       visible: true,
       alignment: "left",
@@ -50,14 +53,14 @@ export const User = (): JSX.Element => {
     },
     {
       columnName: "currency",
-      columnLabel: "Wallet Currency",
+      columnLabel: getMessage(msg, "MB_WALLET_CURRENCY"),
       columnType: "string",
       visible: true,
       alignment: "left",
     },
     {
       columnName: "ref_balance",
-      columnLabel: "Balance (USD)",
+      columnLabel: `${getMessage(msg, "MB_BALANCE")} (USD)`,
       columnType: "number",
       visible: true,
       alignment: "left",

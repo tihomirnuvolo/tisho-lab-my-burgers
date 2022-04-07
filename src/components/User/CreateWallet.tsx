@@ -5,6 +5,8 @@ import { showInfoToast } from "src/store/ToastSlice";
 import { addWallet, getUserDetails } from "src/services/UserService";
 import { Currencies } from "src/types/Currencies";
 import { userState } from "src/store/userSlice";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 import { WalletFormModal } from "./WalletForm";
 
 interface CreateWalletProps {
@@ -14,7 +16,7 @@ interface CreateWalletProps {
 }
 
 const CreateWalletComponent = (props: CreateWalletProps) => {
-  //   const msg = useNuvoMessages();
+  const msg = useNuvoMessages();
   const defaultWallet = {
     sys_id: "",
     balance: 0,
@@ -38,7 +40,7 @@ const CreateWalletComponent = (props: CreateWalletProps) => {
       dispatch(
         showInfoToast({
           type: "success",
-          content: "New burger added!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+          content: getMessage(msg, "MB_WALLET_CREATED"),
         })
       );
       dispatch(getUserDetails());
@@ -49,7 +51,7 @@ const CreateWalletComponent = (props: CreateWalletProps) => {
       dispatch(
         showInfoToast({
           type: "error",
-          content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
+          content: getMessage(msg, "MB_ERROR"),
         })
       );
       resetWalletForm();
@@ -68,7 +70,7 @@ const CreateWalletComponent = (props: CreateWalletProps) => {
 
   return (
     <WalletFormModal
-      title="New Wallet"
+      title={getMessage(msg, "MB_NEW_WALLET")}
       open={open}
       setOpen={setOpen}
       payload={payload}

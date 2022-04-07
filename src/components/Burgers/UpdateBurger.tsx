@@ -9,6 +9,8 @@ import {
 } from "src/services/BurgerService";
 import { userState } from "src/store/userSlice";
 import { getUserDetails } from "src/services/UserService";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 import { BurgerFormModal } from "./BurgerForm";
 
 interface UpdateBurgerProps {
@@ -19,7 +21,7 @@ interface UpdateBurgerProps {
 }
 
 const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
-  //   const msg = useNuvoMessages();
+  const msg = useNuvoMessages();
   const { payload, open, setOpen, setIsLoading } = props;
   const dispatch = useDispatch();
   const { user } = useSelector(userState);
@@ -29,7 +31,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
       dispatch(
         showInfoToast({
           type: "success",
-          content: "Burger info updated!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+          content: getMessage(msg, "MB_BURGER_UPDATED"),
         })
       );
       dispatch(getBurgers());
@@ -39,7 +41,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
       dispatch(
         showInfoToast({
           type: "error",
-          content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
+          content: getMessage(msg, "MB_ERROR"),
         })
       );
     };
@@ -55,7 +57,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
       dispatch(
         showInfoToast({
           type: "success",
-          content: "Bon appetit!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+          content: getMessage(msg, "MB_BUY_SUCCESS"),
         })
       );
       dispatch(getBurgers());
@@ -66,7 +68,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
       dispatch(
         showInfoToast({
           type: "error",
-          content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
+          content: getMessage(msg, "MB_ERROR"),
         })
       );
     };
@@ -84,7 +86,7 @@ const UpdateBurgerComponent = (props: UpdateBurgerProps) => {
 
   return (
     <BurgerFormModal
-      title="Burger Details"
+      title={getMessage(msg, "MB_BURGER_DETAILS")}
       open={open}
       setOpen={setOpen}
       payload={payload}

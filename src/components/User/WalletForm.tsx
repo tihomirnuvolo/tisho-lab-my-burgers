@@ -2,6 +2,8 @@
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
 import { Item, NuvoForm } from "@nuvolo/nuux/components/NuvoForm";
 import { NuvoModal } from "@nuvolo/nuux/components/NuvoModal";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 import React, { useState } from "react";
 import { Currencies } from "src/types/Currencies";
 import { Wallet } from "src/types/Wallet";
@@ -17,7 +19,7 @@ interface WalletFormProps {
 }
 
 export const WalletFormModal = (props: WalletFormProps) => {
-  //   const msg = useNuvoMessages();
+  const msg = useNuvoMessages();
   const { payload, title, open, setOpen, onSave, disabled, setIsLoading } =
     props;
 
@@ -78,7 +80,7 @@ export const WalletFormModal = (props: WalletFormProps) => {
           <Item
             dataField="balance"
             editorType="dxNumberBox"
-            label={{ text: "Balance" }}
+            label={{ text: getMessage(msg, "MB_BALANCE") }}
             isRequired
             editorOptions={{
               format: { precision: 2 },
@@ -105,7 +107,7 @@ export const WalletFormModal = (props: WalletFormProps) => {
           }}
         >
           <NuvoButton
-            label="Save"
+            label={getMessage(msg, "MB_SAVE")}
             disabled={!changesWereMade || !isValid}
             onClick={_onSave}
           />

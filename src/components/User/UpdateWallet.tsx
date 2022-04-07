@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { Wallet } from "src/types/Wallet";
 import { showInfoToast } from "src/store/ToastSlice";
 import { getUserDetails, updateWallet } from "src/services/UserService";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 import { WalletFormModal } from "./WalletForm";
 
 interface UpdateWalletProps {
@@ -13,7 +15,7 @@ interface UpdateWalletProps {
 }
 
 const UpdateWalletComponent = (props: UpdateWalletProps) => {
-  //   const msg = useNuvoMessages();
+  const msg = useNuvoMessages();
   const { payload, open, setOpen, setIsLoading } = props;
   const dispatch = useDispatch();
 
@@ -22,7 +24,7 @@ const UpdateWalletComponent = (props: UpdateWalletProps) => {
       dispatch(
         showInfoToast({
           type: "success",
-          content: "Wallet info updated!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+          content: getMessage(msg, "MB_WALLET_UPDATED"),
         })
       );
       dispatch(getUserDetails());
@@ -32,7 +34,7 @@ const UpdateWalletComponent = (props: UpdateWalletProps) => {
       dispatch(
         showInfoToast({
           type: "error",
-          content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
+          content: getMessage(msg, "MB_ERROR"),
         })
       );
     };
@@ -45,7 +47,7 @@ const UpdateWalletComponent = (props: UpdateWalletProps) => {
 
   return (
     <WalletFormModal
-      title="Wallet Details"
+      title={getMessage(msg, "MB_WALLET_DETAILS")}
       open={open}
       setOpen={setOpen}
       payload={payload}

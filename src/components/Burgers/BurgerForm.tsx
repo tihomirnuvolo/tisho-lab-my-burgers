@@ -99,7 +99,9 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
 
   const NotEnoughMoneyLabel = () => {
     return isEnoughMoney ? null : (
-      <div style={{ marginTop: "5px" }}>Not enough money</div>
+      <div style={{ marginTop: "5px" }}>
+        {getMessage(msg, "MB_NOT_ENOUGH_MONEY")}
+      </div>
     );
   };
 
@@ -114,7 +116,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
       >
         <Item
           dataField="name"
-          label={{ text: "Name" }}
+          label={{ text: getMessage(msg, "MB_NAME") }}
           editorType="dxTextBox"
           isRequired
           editorOptions={{
@@ -128,7 +130,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
         <Item
           dataField="list_price"
           editorType="dxNumberBox"
-          label={{ text: "Price (USD)" }}
+          label={{ text: `${getMessage(msg, "MB_PRICE")} (USD)` }}
           isRequired
           editorOptions={{
             format: { precision: 2 },
@@ -141,7 +143,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
           dataField="quantity"
           editorType="dxNumberBox"
           isRequired
-          label={{ text: "Quantity" }}
+          label={{ text: getMessage(msg, "MB_QUANTITY") }}
           editorOptions={{
             format: { precision: 0 },
             disableControls,

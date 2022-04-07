@@ -4,6 +4,8 @@ import { Burger } from "src/types/Burger";
 import { showInfoToast } from "src/store/ToastSlice";
 import { addBurger, getBurgers } from "src/services/BurgerService";
 import { Currencies } from "src/types/Currencies";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
+import { getMessage } from "@utils/messages";
 import { BurgerFormModal } from "./BurgerForm";
 
 interface CreateBurgerProps {
@@ -13,7 +15,7 @@ interface CreateBurgerProps {
 }
 
 const CreateBurgerComponent = (props: CreateBurgerProps) => {
-  //   const msg = useNuvoMessages();
+  const msg = useNuvoMessages();
   const defaultBurger = {
     sys_id: "",
     name: "",
@@ -36,7 +38,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
       dispatch(
         showInfoToast({
           type: "success",
-          content: "New burger added!", // getMessage(msg, "RE_SUCCESSFULLY_CREATED_PAYMENT"),
+          content: getMessage(msg, "MB_NEW_BURGER_ADDED"),
         })
       );
       dispatch(getBurgers());
@@ -47,7 +49,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
       dispatch(
         showInfoToast({
           type: "error",
-          content: "Something went wrong", // getMessage(msg, "RE_ERROR_WHILE_CREATING_PAYMENT"),
+          content: getMessage(msg, "MB_ERROR"),
         })
       );
       resetBurgerForm();
@@ -61,7 +63,7 @@ const CreateBurgerComponent = (props: CreateBurgerProps) => {
 
   return (
     <BurgerFormModal
-      title="New Burger"
+      title={getMessage(msg, "MB_NEW_BURGER")}
       open={open}
       setOpen={setOpen}
       payload={payload}
