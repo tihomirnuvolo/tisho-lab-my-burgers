@@ -6,6 +6,8 @@ import { Burger } from "src/types/Burger";
 import { NuvoButton } from "@nuvolo/nuux/components/NuvoButton";
 import { useSelector } from "react-redux";
 import { userState } from "src/store/userSlice";
+import { getMessage } from "@utils/messages";
+import { useNuvoMessages } from "@nuvolo/nuux/hooks";
 
 interface BurgerFormProps {
   title: string;
@@ -19,7 +21,7 @@ interface BurgerFormProps {
 }
 
 export const BurgerFormModal = (props: BurgerFormProps) => {
-  //   const msg = useNuvoMessages();
+  const msg = useNuvoMessages();
   const {
     payload,
     title,
@@ -46,6 +48,7 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
     });
   };
   const isEnoughMoney = enoughMoney();
+  const isNewRecord = (payload?.current?.sys_id?.length ?? 0) === 0;
 
   const _onClose = () => {
     setOpen(false);
@@ -155,16 +158,17 @@ export const BurgerFormModal = (props: BurgerFormProps) => {
         }}
       >
         <NuvoButton
-          label="Save"
+          label={getMessage(msg, "MB_SAVE")}
           disabled={!changesWereMade || !isValid}
           onClick={_onSave}
         />
-        <div style={{ textAlign: "end" }}>
+        <div
+          style={{ textAlign: "end", display: isNewRecord ? "none" : "block" }}
+        >
           <NuvoButton
-            label="Buy"
+            label={getMessage(msg, "MB_BUY")}
             disabled={changesWereMade || !isEnoughMoney}
             onClick={_onBuy}
-            visible={(payload?.current?.sys_id?.length ?? 0) > 0}
           />
           <NotEnoughMoneyLabel />
         </div>
